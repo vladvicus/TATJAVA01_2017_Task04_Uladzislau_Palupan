@@ -66,10 +66,11 @@ public class BookDaoImpl implements BookDao {
 
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws DaoException {
         String sql = "DELETE FROM catalog.books WHERE id=?";
         PreparedStatement ps = null;
         try {
+            connection=pool.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             ps.executeUpdate();
