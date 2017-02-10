@@ -2,8 +2,9 @@ package com.epam.catalog.dao.impl;
 
 import com.epam.catalog.bean.Book;
 import com.epam.catalog.dao.BookDao;
+import com.epam.catalog.dao.connectionpool.ConnectionPool;
 import com.epam.catalog.dao.exception.DaoException;
-import com.epam.catalog.db.DBWork;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,11 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDaoImpl implements BookDao {
-    private final Connection connection;
+
+    private  Connection connection=null;
+    private ConnectionPool pool;
+    private static String user = "root";
+    private static String password = "1234";
+    private static String url = "jdbc:mysql://localhost:3306/catalog";
+    private static String driver = "com.mysql.jdbc.Driver";
 
     public BookDaoImpl() {
-        DBWork db = new DBWork();
-        this.connection = db.getCn();
+        this.pool = ConnectionPool.getInstance(3, url, user, password, driver);
+
     }
 
     public Connection getConnection() {
@@ -33,6 +40,7 @@ public class BookDaoImpl implements BookDao {
 
         try {
             list = new ArrayList<Book>();
+            connection=pool.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setInt(1, key);
 
@@ -50,6 +58,7 @@ public class BookDaoImpl implements BookDao {
         } finally {
 
             closePrepareStatement(ps);
+            pool.freeConnection(connection);
         }
         return list;
 
@@ -70,6 +79,7 @@ public class BookDaoImpl implements BookDao {
             e.printStackTrace();
         } finally {
             closePrepareStatement(ps);
+            pool.freeConnection(connection);
         }
     }
 
@@ -79,6 +89,7 @@ public class BookDaoImpl implements BookDao {
         List<Book> list = new ArrayList<Book>();
         PreparedStatement ps =null;
         try {
+            connection=pool.getConnection();
             ps=connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -98,6 +109,7 @@ public class BookDaoImpl implements BookDao {
         } finally {
 
             closePrepareStatement(ps);
+            pool.freeConnection(connection);
         }
         return list;
 
@@ -120,7 +132,7 @@ public class BookDaoImpl implements BookDao {
         List<Book> list = new ArrayList<>();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        try {
+        try {connection=pool.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setDouble(1, price);
             rs = ps.executeQuery();
@@ -142,6 +154,7 @@ public class BookDaoImpl implements BookDao {
         }finally {
 
             closePrepareStatement(ps);
+            pool.freeConnection(connection);
         }
         return list;
     }
@@ -156,6 +169,7 @@ public class BookDaoImpl implements BookDao {
 
         try {
             list = new ArrayList<Book>();
+            connection=pool.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, author);
 
@@ -174,6 +188,7 @@ public class BookDaoImpl implements BookDao {
         } finally {
 
             closePrepareStatement(ps);
+            pool.freeConnection(connection);
         }
         return list;
 
@@ -183,7 +198,7 @@ public class BookDaoImpl implements BookDao {
     public void addBook(Book book) throws DaoException {
         String sql = "INSERT INTO catalog.books (`author`, `name`, `pages`, `price`) VALUES (?,?,?,?)";
         PreparedStatement ps = null;
-        try {
+        try {connection=pool.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, book.getAuthor());
             ps.setString(2, book.getName());
@@ -198,6 +213,7 @@ public class BookDaoImpl implements BookDao {
         } finally {
 
             closePrepareStatement(ps);
+            pool.freeConnection(connection);
         }
     }
 
