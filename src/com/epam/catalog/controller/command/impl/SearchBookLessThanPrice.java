@@ -27,10 +27,7 @@ public class SearchBookLessThanPrice implements Command {
         List<Book> booksFoundByPrice=null;
         try {
             booksFoundByPrice=clientService.findBooksLessThenPrice(price);
-           /* for(Book oneBook:booksFoundByPrice){
-                System.out.println(oneBook.toString());
-            }*/
-           
+
 
         } catch (ServiceException e) {
 

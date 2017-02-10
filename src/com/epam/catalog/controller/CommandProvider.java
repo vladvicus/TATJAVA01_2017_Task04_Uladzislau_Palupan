@@ -2,18 +2,8 @@ package com.epam.catalog.controller;
 
 import com.epam.catalog.controller.command.Command;
 import com.epam.catalog.controller.command.CommandName;
-import com.epam.catalog.controller.command.impl.AddBook;
-import com.epam.catalog.controller.command.impl.AddDisk;
-import com.epam.catalog.controller.command.impl.AddFilm;
-import com.epam.catalog.controller.command.impl.SearchBookByAuthor;
+import com.epam.catalog.controller.command.impl.*;
 
-
-import com.epam.catalog.controller.command.impl.SearchBookLessThanPrice;
-import com.epam.catalog.controller.command.impl.SearchDiskByName;
-import com.epam.catalog.controller.command.impl.SearchDiskLessThanPrice;
-import com.epam.catalog.controller.command.impl.SearchFilmBiggerThanRating;
-import com.epam.catalog.controller.command.impl.SearchFilmByName;
-import com.epam.catalog.controller.command.impl.WrongRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +17,8 @@ public class CommandProvider {
 		repository.put(CommandName.SEARCH_BOOK_LESS_THAN_PRICE, new SearchBookLessThanPrice());
 		repository.put(CommandName.SEARCH_BOOK_BY_AUTHOR, new SearchBookByAuthor());
 		repository.put(CommandName.ADD_BOOK, new AddBook());
+		repository.put(CommandName.SEARCH_BOOK_BY_ID,new SearchBookById());
+		repository.put(CommandName.GET_ALL_BOOKS, new GetAllBooks());
 		repository.put(CommandName.SEARCH_DISK_LESS_THAN_PRICE, new SearchDiskLessThanPrice());
 		repository.put(CommandName.SEARCH_DISK_BY_NAME, new SearchDiskByName());
 		repository.put(CommandName.ADD_DISK, new AddDisk());

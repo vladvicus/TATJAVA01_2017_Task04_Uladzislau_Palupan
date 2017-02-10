@@ -13,27 +13,19 @@ public class AddBook implements Command {
 
 	@Override
 	public List<?> execute(String request) {
-		final char paramDelimeter = ',';
+		//final char paramDelimeter = ',';
 		System.out.println(request);
 
 		request = request.replaceAll("\\s{2,}", " ");
 
-		// String message = request.substring(request.indexOf(paramDelimeter));
+
 		
 		Book book = new Book();
 		Book newBook = book.makeBook();
 		List<Book> addedBook = new ArrayList<Book>();
 		addedBook.add(newBook);
 		
-		StringBuffer sb = new StringBuffer();
-		sb.append(newBook.getAuthor() + ",");
-		sb.append(newBook.getName() + ",");
-		sb.append(newBook.getPages() + ",");
-		sb.append(newBook.getPrice());
 
-		String message = "book," + sb.toString();
-		
-		System.out.println(message+" added to file!!");
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		BookService clientService = serviceFactory.getBookService();

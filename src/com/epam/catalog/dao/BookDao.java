@@ -14,16 +14,16 @@ public interface BookDao {
 	
 
 
-    public Book read(int key) throws SQLException;
+    public List<Book> read(int key) throws DaoException;
 
 
-    public void update(Book book);
+
 
 
     public void delete(int id);
 
 
-    public List<Book> getAll() throws SQLException;
+    public List<Book> getAll() throws DaoException;
     
     void addBook(Book book) throws DaoException;
     

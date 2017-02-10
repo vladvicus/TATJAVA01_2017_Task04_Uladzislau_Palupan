@@ -36,10 +36,10 @@ public class FirstTest {
 		//	bookDao.addBook(new Book("Tolkien","Hobbit",220,15.7));
 		//	bookDao.addBook(new Book("Roaling","Harry Porter",320,18.7));
 		//	bookDao.addBook(new Book("Beth Lewis","The Wolf Road",342,10.91));
-			bookFind = bookDao.getAll();
-			 book=bookDao.read(2);
+		//	bookFind = bookDao.getAll();
+			 bookFind=bookDao.read(2);
 			 
-		} catch (SQLException e) {
+		} catch (DaoException e) {
 			
 			e.printStackTrace();
 		}

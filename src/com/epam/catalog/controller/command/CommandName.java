@@ -3,6 +3,8 @@ package com.epam.catalog.controller.command;
 public enum CommandName {
 	SEARCH_BOOK_LESS_THAN_PRICE,
 	SEARCH_BOOK_BY_AUTHOR,
+	SEARCH_BOOK_BY_ID,
+	GET_ALL_BOOKS,
 	ADD_BOOK,
 	SEARCH_DISK_BY_NAME,
 	SEARCH_DISK_LESS_THAN_PRICE,

@@ -24,17 +24,21 @@ public class SearchBookByAuthor implements Command {
             element.trim();
             System.out.println(element);
         }
-        String author = arr[1];
-           
+        String author = null;
+        try {
+            author = arr[1];
+        } catch (NumberFormatException e) {
+            System.out.println("Illegal format for parameter"+e);
+            return null;
+        }
+
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         BookService clientService = serviceFactory.getBookService();
         List<Book> booksFoundByAuthor=null;
         try {
              booksFoundByAuthor=clientService.findBooksByAuthor(author);
-            /*for(Book oneBook:booksFoundByAuthor){
-                System.out.println(oneBook.toString());
-            }*/
+
             System.out.println("Controller:Welcome ");
 
         } catch (ServiceException e) {

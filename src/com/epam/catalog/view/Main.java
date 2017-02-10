@@ -22,7 +22,7 @@ public class Main {
 		System.out.println("HELLO, MY DEAR CLIENT!!! YOU ARE INSIDE THE CATALOG !!!");
 		do {
 			System.out.println();
-			System.out.println("Input   1-To input command\n" + "\t0-To exit");
+			System.out.println("Input   1-To input command\n" + "\t\t0-To exit");
 
 			flag = inputInt();
 			switch (flag) {
