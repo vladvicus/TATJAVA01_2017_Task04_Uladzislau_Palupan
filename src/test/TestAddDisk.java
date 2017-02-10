@@ -10,7 +10,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.epam.catalog.dao.exception.DaoException;
-import com.epam.catalog.dao.impl.BookDaoImpl;
+
 import com.epam.catalog.dao.impl.DiskDaoImpl;
 
 public class TestAddDisk {
@@ -25,7 +25,7 @@ public class TestAddDisk {
 
 			String data = new String(Files.readAllBytes(datafile));
 			System.out.println(data);
-			Assert.assertTrue(data.contains(message), "Файл не содержит запись");
+			Assert.assertTrue(data.contains(message));
 
 		} catch (IOException | DaoException e) {
 
