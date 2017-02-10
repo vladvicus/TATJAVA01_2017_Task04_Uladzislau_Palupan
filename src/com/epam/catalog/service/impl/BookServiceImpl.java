@@ -22,7 +22,7 @@ public class BookServiceImpl implements BookService {
 
 		} catch (DaoException e) {
 			response = "Error during searching procedure from BookServiceImpl";
-			throw new ServiceException(response);
+			throw new ServiceException(response+e);
 
 			// write log
 		}
@@ -40,7 +40,7 @@ public class BookServiceImpl implements BookService {
 			return booksFind;
 		} catch (DaoException e) {
 			response = "Error during searching procedure from BookServiceImpl";
-			throw new ServiceException(response);
+			throw new ServiceException(response+e);
 
 		}
 
@@ -56,7 +56,7 @@ public class BookServiceImpl implements BookService {
 			return booksFind;
 		} catch (DaoException e) {
 
-			throw new ServiceException("Error during searching procedure from BookServiceImpl");
+			throw new ServiceException("Error during searching procedure from BookServiceImpl"+e);
 
 		}
 
@@ -75,7 +75,7 @@ public class BookServiceImpl implements BookService {
 			return booksFind;
 		} catch (DaoException e) {
 			response = "Error during searching procedure from BookServiceImpl";
-			throw new ServiceException(response);
+			throw new ServiceException(response+e);
 
 		}
 	}
@@ -93,10 +93,27 @@ public class BookServiceImpl implements BookService {
 			return booksFind;
 		} catch (DaoException e) {
 			response = "Error during searching procedure from BookServiceImpl";
-			throw new ServiceException(response);
+			throw new ServiceException(response+e);
 
 			// write log
 		}
 
+	}
+
+	@Override
+	public  void deleteBook(int id) throws ServiceException {
+
+		try {
+			DaoFactory daoFactory = DaoFactory.getInstance();
+			BookDao bookDao = daoFactory.getBookDao();
+
+			 bookDao.delete(id);
+
+
+		} catch (DaoException e) {
+
+			throw new ServiceException("Error during searching procedure from BookServiceImpl"+e);
+
+		}
 	}
 }
