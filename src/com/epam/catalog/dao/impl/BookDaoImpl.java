@@ -15,33 +15,30 @@ import java.util.List;
 
 public class BookDaoImpl implements BookDao {
 
-    private  Connection connection=null;
-    private ConnectionPool pool;
-    private static String user = "root";
-    private static String password = "1234";
-    private static String url = "jdbc:mysql://localhost:3306/catalog";
-    private static String driver = "com.mysql.jdbc.Driver";
+
+
+    public final int NUMBER_OF_CONNECTIONS = 3;
+    public static ConnectionPool pool;
+    private Connection connection = null;
 
     public BookDaoImpl() {
-        this.pool = ConnectionPool.getInstance(3, url, user, password, driver);
 
-    }
+            this.pool = ConnectionPool.getInstance(NUMBER_OF_CONNECTIONS);
+        }
 
-    public Connection getConnection() {
-        return connection;
-    }
+
 
     @Override
     public List<Book> read(int key) throws DaoException {
         List<Book> list = null;
-        String sql = "SELECT * FROM catalog.books WHERE id = ?";
+       final String SQL = "SELECT * FROM catalog.books WHERE id = ?";
 
         PreparedStatement ps = null;
 
         try {
             list = new ArrayList<Book>();
-            connection=pool.getConnection();
-            ps = connection.prepareStatement(sql);
+            connection = pool.getConnection();
+            ps = connection.prepareStatement(SQL);
             ps.setInt(1, key);
 
             ResultSet rs = ps.executeQuery();
@@ -70,7 +67,7 @@ public class BookDaoImpl implements BookDao {
         String sql = "DELETE FROM catalog.books WHERE id=?";
         PreparedStatement ps = null;
         try {
-            connection=pool.getConnection();
+            connection = pool.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             ps.executeUpdate();
@@ -88,10 +85,10 @@ public class BookDaoImpl implements BookDao {
     public List<Book> getAll() throws DaoException {
         String sql = "SELECT * FROM catalog.books;";
         List<Book> list = new ArrayList<Book>();
-        PreparedStatement ps =null;
+        PreparedStatement ps = null;
         try {
-            connection=pool.getConnection();
-            ps=connection.prepareStatement(sql);
+            connection = pool.getConnection();
+            ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -133,7 +130,8 @@ public class BookDaoImpl implements BookDao {
         List<Book> list = new ArrayList<>();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        try {connection=pool.getConnection();
+        try {
+            connection = pool.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setDouble(1, price);
             rs = ps.executeQuery();
@@ -152,7 +150,7 @@ public class BookDaoImpl implements BookDao {
 
             throw new DaoException("error while finding books less than price" + e);
 
-        }finally {
+        } finally {
 
             closePrepareStatement(ps);
             pool.freeConnection(connection);
@@ -170,7 +168,7 @@ public class BookDaoImpl implements BookDao {
 
         try {
             list = new ArrayList<Book>();
-            connection=pool.getConnection();
+            connection = pool.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, author);
 
@@ -199,7 +197,8 @@ public class BookDaoImpl implements BookDao {
     public void addBook(Book book) throws DaoException {
         String sql = "INSERT INTO catalog.books (`author`, `name`, `pages`, `price`) VALUES (?,?,?,?)";
         PreparedStatement ps = null;
-        try {connection=pool.getConnection();
+        try {
+            connection = pool.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, book.getAuthor());
             ps.setString(2, book.getName());

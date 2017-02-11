@@ -6,6 +6,7 @@ import com.epam.catalog.dao.FilmDao;
 import com.epam.catalog.dao.impl.BookDaoImpl;
 import com.epam.catalog.dao.impl.DiskDaoImpl;
 import com.epam.catalog.dao.impl.FilmDaoImpl;
+import com.mysql.jdbc.Connection;
 
 
 public final class DaoFactory {

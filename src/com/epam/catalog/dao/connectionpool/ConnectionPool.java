@@ -10,19 +10,20 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
-    private static ConnectionPool instance = null;
+    private static ConnectionPool instance ;
     private BlockingQueue<Connection> freeConn;
-    private BlockingQueue<Object> busyConn;
+    private BlockingQueue<Connection> busyConn;
+    private static final String USER = "root";
+    private static String PASS = "root";
+    private static String URL = "jdbc:mysql://localhost:3306/catalog";
+    private static String DRIVER = "com.mysql.jdbc.Driver";
 
-    private String url;
-    private String user;
-    private String pass;
 
     private int maxConn;
 
-    private ConnectionPool(int max, String url, String user, String pass, String driver) {
+    private ConnectionPool(int max) {
         try{
-            Class.forName(driver);
+            Class.forName(DRIVER);
         }catch(Exception e){
             System.err.println("No such driver.");
             e.printStackTrace();
@@ -30,20 +31,18 @@ public class ConnectionPool {
         }
 
         maxConn= max > 0 ? max: 1;
-        this.url = url;
-        this.user = user;
-        this.pass = pass;
+
 
         freeConn = new ArrayBlockingQueue<Connection>(maxConn);
-        busyConn = new ArrayBlockingQueue<Object>(maxConn);
+        busyConn = new ArrayBlockingQueue<Connection>(maxConn);
     }
 
 
 
-    public static synchronized ConnectionPool getInstance(int max ,String url, String user, String pass,String driver) {
+    public static synchronized ConnectionPool getInstance(int max ) {
 
         if (instance == null) {
-            instance = new ConnectionPool(max, url, user, pass, driver);
+            instance = new ConnectionPool(max);
         }
 
         return instance;
@@ -51,7 +50,7 @@ public class ConnectionPool {
 
     public synchronized Connection getConnection() throws DaoException {
         if(!freeConn.isEmpty()){
-            Object conn = null;
+            Connection conn = null;
             try {
                 conn = freeConn.take();
             } catch (InterruptedException e) {
@@ -59,29 +58,30 @@ public class ConnectionPool {
             }
             freeConn.remove(freeConn.size()-1);
             busyConn.add(conn);
-            return (Connection)conn;
+            return conn;
         }
         if(busyConn.size() < maxConn){
             try{
-                Connection temp = DriverManager.getConnection(url, user, pass);
+                Connection temp = DriverManager.getConnection(URL, USER, PASS);
                 busyConn.add(temp);
                 return temp;
             }catch(SQLException e){
-                System.out.println("SQLException in ConnectionPool.getConnection();"+e);
+                throw new DaoException("SQLException in ConnectionPool.getConnection();"+e);
 
             }
         }
 
         try{
             wait();
-        }catch(InterruptedException ie){}
-
+        }catch(InterruptedException  e1){
+            throw new DaoException("Wake up while waiting"+ e1);
+        }
         return getConnection();
     }
 
     public void freeConnection(Connection conn){
         busyConn.remove(conn);
         freeConn.add(conn);
-        //  notifyAll();
+
     }
 }

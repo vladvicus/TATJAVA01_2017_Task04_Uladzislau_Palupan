@@ -1,8 +1,10 @@
 package com.epam.catalog.dao.impl;
 
+import com.epam.catalog.bean.Book;
 import com.epam.catalog.bean.Disk;
 
 import com.epam.catalog.dao.DiskDao;
+import com.epam.catalog.dao.connectionpool.ConnectionPool;
 import com.epam.catalog.dao.exception.DaoException;
 
 import java.io.BufferedReader;
@@ -11,112 +13,161 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class DiskDaoImpl implements DiskDao {
-	private Set<Disk> disks = new HashSet<>();
-	String datafile = Paths.get("data/units.txt").toAbsolutePath().toString();
+    public final String MESSAGE = "Error in DiskDaoIMPL!!";
+    public final int NUMBER_OF_CONNECTIONS = 3;
+    public static ConnectionPool pool;
+    private Connection connection = null;
 
-	public Set<Disk> getDisks() {
-		return disks;
-	}
+    public DiskDaoImpl() {
+        this.pool = ConnectionPool.getInstance(NUMBER_OF_CONNECTIONS);
+    }
 
-	public void setDisks(Set<Disk> disks) {
-		this.disks = disks;
-	}
+    @Override
+    public void addDisk(Disk disk) throws DaoException {
+        String sql = "INSERT INTO catalog.disks (`type`, `name`, `year`, `price`) VALUES (?,?,?,?)";
+        PreparedStatement ps = null;
+        try {
+            connection = pool.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, disk.getType());
+            ps.setString(2, disk.getName());
+            ps.setInt(3, disk.getYear());
+            ps.setDouble(4, disk.getPrice());
+            ps.executeUpdate();
+            System.out.println("Insert is successful!!");
+        } catch (SQLException e) {
 
-	@Override
-	public void addDisk(String disk) throws DaoException {
-		FileWriter wr = null;
-		try {
-			wr = new FileWriter(datafile, true);
-			wr.append("\n" + disk);
-			wr.flush();
-			wr.close();
-		} catch (IOException e) {
+            throw new DaoException(MESSAGE + e);
 
-			throw new DaoException();
-		}
+        } finally {
 
-	}
+            closePrepareStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
 
-	@Override
-	public List<Disk> findDisksLessThanPrice(Double price) throws DaoException {
+    public void closePrepareStatement(PreparedStatement ps) {
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-		System.out.println("Price-->" + price);
-		List<Disk> disksFoundByPrice = new ArrayList<>();
+    @Override
+    public List<Disk> findDisksLessThanPrice(Double price) throws DaoException {
+        final String SQL = "SELECT * FROM catalog.disks WHERE price < ?";
+        List<Disk> list = new ArrayList<>();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = pool.getConnection();
+            ps = connection.prepareStatement(SQL);
+            ps.setDouble(1, price);
+            rs = ps.executeQuery();
+            while (rs.next()) {
 
-		try {
-			readFile(datafile);
 
-		} catch (IOException e) {
+                Disk disk = new Disk();
+                disk.setId(rs.getInt("id"));
+                disk.setType(rs.getString("type"));
+                disk.setName(rs.getString("name"));
+                disk.setYear(rs.getInt("pages"));
+                disk.setPrice(rs.getDouble("price"));
 
-			throw new DaoException("error in findDisksLessThenPrice method");
-		}
-		for (Disk oneDisk : disks) {
-			if (oneDisk.getPrice() < (price)) {
-				disksFoundByPrice.add(oneDisk);
-			}
-		}
+                list.add(disk);
 
-		return disksFoundByPrice;
+            }
+        } catch (SQLException e) {
 
-	}
+            throw new DaoException("Error while finding disks less than price" + e);
 
-	@Override
-	public List<Disk> findDisksByName(String name) throws DaoException {
+        } finally {
 
-		System.out.println("Name-->" + name);
-		List<Disk> disksFoundByName = new ArrayList<>();
+            closePrepareStatement(ps);
+            pool.freeConnection(connection);
+        }
+        return list;
 
-		try {
-			readFile(datafile);
 
-		} catch (IOException e) {
-			// e.printStackTrace();
-			throw new DaoException(e);
-		}
-		for (Disk oneDisk : disks) {
-			if (oneDisk.getName().toLowerCase().equals(name.toLowerCase()) || 
-					(oneDisk.getName().toLowerCase().contains(name.toLowerCase()))) {
-				disksFoundByName.add(oneDisk);
-			}
-		}
-		System.out.println("The list of disks with name:" + name);
+    }
 
-		return disksFoundByName;
-	}
+    //UPDATE Messages SET description = ?, author = ? WHERE id = ? AND seq_num = ?
+    @Override
+    public List<Disk> findDisksByName(String name) throws DaoException {
+        final String SQL = "SELECT * FROM catalog.disks WHERE name=?";
+        List<Disk> diskList = new ArrayList<>();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = pool.getConnection();
+            ps = connection.prepareStatement(SQL);
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Disk disk = new Disk();
+                disk.setId(rs.getInt("id"));
+                disk.setType(rs.getString("type"));
+                disk.setName(rs.getString("name"));
+                disk.setYear(rs.getInt("pages"));
+                disk.setPrice(rs.getDouble("price"));
+                diskList.add(disk);
+            }
 
-	public Set<Disk> readFile(String fname) throws IOException {
+        } catch (SQLException e) {
+            throw new DaoException(MESSAGE + e);
+        } finally {
+            closePrepareStatement(ps);
+            pool.freeConnection(connection);
+        }
+        return diskList;
+    }
 
-		FileInputStream fis = new FileInputStream(fname);
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-		String line;
-		while ((line = br.readLine()) != null) {
-			String[] data = line.split(",");
-			for (int i = 0; i < data.length; i++) {
-				data[i] = data[i].trim();
+    public List<Disk> readFile(String fname) throws IOException{
+        List<Disk> disks = new ArrayList<>();
+        FileInputStream fis = new FileInputStream(fname);
+        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] data = line.split(",");
+            for (int i = 0; i < data.length; i++) {
+                data[i] = data[i].trim();
 
-			}
-			if (data[0].startsWith("disk")) {
+            }
+            if (data[0].startsWith("disk")) {
 
-				String type = data[1];
-				String name = data[2];
-				Integer year = Integer.parseInt(data[3]);
-				Double price = Double.parseDouble(data[4]);
-				disks.add(new Disk(type, name, year, price));
+                String type = data[1];
+                String name = data[2];
+                Integer year = Integer.parseInt(data[3]);
+                Double price = Double.parseDouble(data[4]);
+                try {
+                    addDisk(new Disk(type, name, year, price));
+                } catch (DaoException e) {
+                    e.printStackTrace();
+                }
 
-			} else
-				continue;
 
-		}
-		br.close();
+            } else
+                continue;
 
-		System.out.println("Disks are suscessfully loaded from file!");
-		return disks;
-	}
+        }
+        br.close();
+        System.out.println("Disks are suscessfully loaded from file!");
+
+
+        return disks;
+    }
 
 }

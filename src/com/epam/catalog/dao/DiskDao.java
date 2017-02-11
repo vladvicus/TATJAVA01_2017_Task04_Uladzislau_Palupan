@@ -7,8 +7,8 @@ import com.epam.catalog.dao.exception.DaoException;
 import java.util.List;
 
 public interface DiskDao {
-
-	void addDisk(String disk) throws DaoException;
+   List<Disk> updateDiskById(int id) throws DaoException;
+	void addDisk(Disk disk) throws DaoException;
 
 	List<Disk> findDisksLessThanPrice(Double price) throws DaoException;
 

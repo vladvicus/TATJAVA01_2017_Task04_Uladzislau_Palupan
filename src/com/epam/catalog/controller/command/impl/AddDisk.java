@@ -13,44 +13,33 @@ import com.epam.catalog.service.factory.ServiceFactory;
 
 public class AddDisk implements Command {
 
-	@Override
-	public List<?> execute(String request) {
-		
-		
-			final char paramDelimeter = ',';
-			System.out.println(request);
+    @Override
+    public List<?> execute(String request) {
 
-			request = request.replaceAll("\\s{2,}", " ");
 
-			// String message = request.substring(request.indexOf(paramDelimeter));
-			
-			Disk disk = new Disk();
-			Disk newDisk = disk.makeDisk();
-			List<Disk> addedDisk = new ArrayList<Disk>();
-			addedDisk.add(newDisk);
-			
-			StringBuffer sb = new StringBuffer();
-			sb.append(newDisk.getType() + ",");
-			sb.append(newDisk.getName() + ",");
-			sb.append(newDisk.getYear() + ",");
-			sb.append(newDisk.getPrice());
+        System.out.println(request);
 
-			String message = "disk," + sb.toString();
-			
-			System.out.println(message+" added to file!!");
-			
-			ServiceFactory serviceFactory = ServiceFactory.getInstance();
-			DiskService clientService = serviceFactory.getDiskService();
-			try {
-				clientService.addDisk(message);
+        request = request.replaceAll("\\s{2,}", " ");
 
-			} catch (ServiceException e) {
-				System.out.println(e);
-				
-			}
 
-			return addedDisk;
+        Disk disk = new Disk();
+        Disk newDisk = disk.makeDisk();
+        List<Disk> addedDisk = new ArrayList<Disk>();
+        addedDisk.add(newDisk);
 
-	}
+
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
+        DiskService diskService = serviceFactory.getDiskService();
+        try {
+            diskService.addDisk(newDisk);
+
+        } catch (ServiceException e) {
+            System.out.println(e);
+
+        }
+
+        return addedDisk;
+
+    }
 
 }

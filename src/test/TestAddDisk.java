@@ -18,16 +18,16 @@ public class TestAddDisk {
 
 	public void f(String message) {
 		Path datafile = Paths.get("data/units.txt").toAbsolutePath();
-		DiskDaoImpl book = new DiskDaoImpl();
+		DiskDaoImpl disk = new DiskDaoImpl();
 
 		try {
-			book.addDisk(message);
+		//	disk.addDisk(disk);
 
 			String data = new String(Files.readAllBytes(datafile));
 			System.out.println(data);
 			Assert.assertTrue(data.contains(message));
 
-		} catch (IOException | DaoException e) {
+		} catch (IOException  e) {
 
 			e.printStackTrace();
 		}

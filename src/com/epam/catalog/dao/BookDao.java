@@ -2,6 +2,7 @@ package com.epam.catalog.dao;
 
 import com.epam.catalog.bean.Book;
 import com.epam.catalog.dao.exception.DaoException;
+import com.mysql.jdbc.Connection;
 
 import java.util.List;
 

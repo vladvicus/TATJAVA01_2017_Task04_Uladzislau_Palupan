@@ -10,10 +10,10 @@ import com.epam.catalog.service.exception.ServiceException;
 import java.util.List;
 
 public class DiskServiceImpl implements DiskService {
-
+private final  String RESPONSE="Error during searching procedure from DiskServiceImpl";
 	@Override
-	public void addDisk(String disk) throws ServiceException {
-		String response = null;
+	public void addDisk(Disk disk) throws ServiceException {
+
 		try {
 			DaoFactory daoFactory = DaoFactory.getInstance();
 			DiskDao diskDao = daoFactory.getDiskDao();
@@ -21,8 +21,8 @@ public class DiskServiceImpl implements DiskService {
 			diskDao.addDisk(disk);
 
 		} catch (DaoException e) {
-			response = "Error during searching procedure from DiskServiceImpl";
-			throw new ServiceException(response);
+
+			throw new ServiceException(RESPONSE);
 
 			// write log
 		}
@@ -31,7 +31,7 @@ public class DiskServiceImpl implements DiskService {
 	@Override
 	public List<Disk> findDisksByName(String name) throws ServiceException {
 
-		String response = null;
+
 		try {
 			DaoFactory daoFactory = DaoFactory.getInstance();
 			DiskDao diskDao = daoFactory.getDiskDao();
@@ -40,8 +40,8 @@ public class DiskServiceImpl implements DiskService {
 
 			return disksFind;
 		} catch (DaoException e) {
-			response = "Error during searching procedure from DiskServiceImpl";
-			throw new ServiceException(response);
+
+			throw new ServiceException(RESPONSE);
 
 			// write log
 		}
@@ -51,7 +51,7 @@ public class DiskServiceImpl implements DiskService {
 	@Override
 	public List<Disk> findDisksLessThanPrice(Double price) throws ServiceException {
 
-		String response = null;
+
 
 		try {
 			DaoFactory daoFactory = DaoFactory.getInstance();
@@ -61,8 +61,8 @@ public class DiskServiceImpl implements DiskService {
 
 			return disksFind;
 		} catch (DaoException e) {
-			response = "Error during searching procedure from DiskServiceImpl";
-			throw new ServiceException(response);
+
+			throw new ServiceException(RESPONSE);
 
 		}
 	}

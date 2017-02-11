@@ -29,7 +29,7 @@ public class TestSearchDiskByName {
 
 			e.printStackTrace();
 		}
-		allDisks = disk.getDisks();
+	//	allDisks = disk.getDisks();
 
 	}
 

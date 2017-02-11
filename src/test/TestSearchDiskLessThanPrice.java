@@ -20,7 +20,7 @@ public class TestSearchDiskLessThanPrice {
 	Set<Disk> allDisks = null;
 
 	@BeforeTest
-	public void beforeTest() {
+	public void beforeTest() throws DaoException {
 
 		try {
 			disk.readFile(datafile);
@@ -28,7 +28,7 @@ public class TestSearchDiskLessThanPrice {
 
 			e.printStackTrace();
 		}
-		allDisks = disk.getDisks();
+	//	allDisks = disk.getDisks();
 
 	}
 
