@@ -22,7 +22,7 @@ private final  String RESPONSE="Error during searching procedure from DiskServic
 
 		} catch (DaoException e) {
 
-			throw new ServiceException(RESPONSE);
+			throw new ServiceException(RESPONSE+e);
 
 			// write log
 		}
@@ -41,9 +41,57 @@ private final  String RESPONSE="Error during searching procedure from DiskServic
 			return disksFind;
 		} catch (DaoException e) {
 
-			throw new ServiceException(RESPONSE);
+			throw new ServiceException(RESPONSE+e);
 
 			// write log
+		}
+
+	}
+
+	@Override
+	public List<Disk> updateDiskById(int id,Disk diskForUpdate) throws ServiceException {
+		DaoFactory daoFactory=DaoFactory.getInstance();
+		DiskDao diskDao=daoFactory.getDiskDao();
+		try {
+			List<Disk> diskUpdated=diskDao.updateDiskById(id,diskForUpdate);
+			return diskUpdated;
+		} catch (DaoException e) {
+			throw new ServiceException(RESPONSE+e);
+			//write log
+		}
+
+	}
+
+	@Override
+	public void deleteDisk(int id) throws ServiceException {
+		try {
+			DaoFactory daoFactory = DaoFactory.getInstance();
+			DiskDao diskDao = daoFactory.getDiskDao();
+
+			diskDao.delete(id);
+
+
+		} catch (DaoException e) {
+
+			throw new ServiceException(RESPONSE+e);
+
+		}
+	}
+
+	@Override
+	public List<Disk> getAll() throws ServiceException {
+
+
+		try {
+			DaoFactory daoFactory = DaoFactory.getInstance();
+			DiskDao diskDao = daoFactory.getDiskDao();
+
+			List<Disk> disksFind=diskDao.getAll();
+			return disksFind;
+		} catch (DaoException e) {
+
+			throw new ServiceException( RESPONSE+e);
+
 		}
 
 	}
@@ -62,7 +110,7 @@ private final  String RESPONSE="Error during searching procedure from DiskServic
 			return disksFind;
 		} catch (DaoException e) {
 
-			throw new ServiceException(RESPONSE);
+			throw new ServiceException(RESPONSE+e);
 
 		}
 	}

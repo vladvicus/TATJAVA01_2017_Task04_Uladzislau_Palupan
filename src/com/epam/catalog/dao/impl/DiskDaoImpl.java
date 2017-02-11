@@ -1,6 +1,6 @@
 package com.epam.catalog.dao.impl;
 
-import com.epam.catalog.bean.Book;
+import com.epam.catalog.bean.Disk;
 import com.epam.catalog.bean.Disk;
 
 import com.epam.catalog.dao.DiskDao;
@@ -30,6 +30,30 @@ public class DiskDaoImpl implements DiskDao {
 
     public DiskDaoImpl() {
         this.pool = ConnectionPool.getInstance(NUMBER_OF_CONNECTIONS);
+    }
+
+    @Override
+    public List<Disk> updateDiskById(int id,Disk diskForUpdate) throws DaoException {
+        final String SQL="UPDATE catalog.disks SET type = ?, name = ?,year= ?,price= ?  WHERE id = ?";
+        List<Disk> list = new ArrayList<>();
+        PreparedStatement ps=null;
+        try{
+            connection=pool.getConnection();
+            ps=connection.prepareStatement(SQL);
+            ps.setString(1,diskForUpdate.getType());
+            ps.setString(2,diskForUpdate.getName());
+            ps.setInt(3,diskForUpdate.getYear());
+            ps.setDouble(4,diskForUpdate.getPrice());
+            ps.setInt(5,id);
+            ps.executeUpdate();
+
+            diskForUpdate.setId(id);
+
+           list.add(diskForUpdate);
+        }catch(SQLException e){
+            throw new DaoException(MESSAGE +e);
+        }
+        return list;
     }
 
     @Override
@@ -133,6 +157,55 @@ public class DiskDaoImpl implements DiskDao {
             pool.freeConnection(connection);
         }
         return diskList;
+    }
+
+    @Override
+    public void delete(int id) throws DaoException {
+        String sql = "DELETE FROM catalog.disks WHERE id=?";
+        PreparedStatement ps = null;
+        try {
+            connection = pool.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            System.out.println("Deletion successful!!");
+        } catch (SQLException e) {
+            System.out.println("Error while deleting by id" + e);
+            e.printStackTrace();
+        } finally {
+            closePrepareStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+
+    @Override
+    public List<Disk> getAll() throws DaoException {
+        String sql = "SELECT * FROM catalog.disks;";
+        List<Disk> list = new ArrayList<Disk>();
+        PreparedStatement ps = null;
+        try {
+            connection = pool.getConnection();
+            ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Disk disk = new Disk();
+                disk.setId(rs.getInt("id"));
+                disk.setType(rs.getString("type"));
+                disk.setName(rs.getString("name"));
+                disk.setYear(rs.getInt("year"));
+                disk.setPrice(rs.getDouble("price"));
+
+                list.add(disk);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            closePrepareStatement(ps);
+            pool.freeConnection(connection);
+        }
+        return list;
     }
 
     public List<Disk> readFile(String fname) throws IOException{

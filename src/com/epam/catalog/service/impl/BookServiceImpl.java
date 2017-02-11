@@ -9,11 +9,11 @@ import com.epam.catalog.service.exception.ServiceException;
 import java.util.List;
 
 public class BookServiceImpl implements BookService {
-
+public final String MESSAGE="Error during searching procedure from BookServiceImpl";
 	@Override
 	public void addBook(Book book) throws ServiceException {
 
-		String response = null;
+
 		try {
 			DaoFactory daoFactory = DaoFactory.getInstance();
 			BookDao bookDao = daoFactory.getBookDao();
@@ -21,8 +21,8 @@ public class BookServiceImpl implements BookService {
 			bookDao.addBook(book);
 
 		} catch (DaoException e) {
-			response = "Error during searching procedure from BookServiceImpl";
-			throw new ServiceException(response+e);
+
+			throw new ServiceException(MESSAGE+e);
 
 			// write log
 		}
@@ -30,7 +30,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<Book> getAll() throws ServiceException {
-		String response = null;
+
 
 		try {
 			DaoFactory daoFactory = DaoFactory.getInstance();
@@ -39,8 +39,8 @@ public class BookServiceImpl implements BookService {
 			List<Book> booksFind=bookDao.getAll();
 			return booksFind;
 		} catch (DaoException e) {
-			response = "Error during searching procedure from BookServiceImpl";
-			throw new ServiceException(response+e);
+
+			throw new ServiceException( MESSAGE+e);
 
 		}
 
@@ -56,7 +56,7 @@ public class BookServiceImpl implements BookService {
 			return booksFind;
 		} catch (DaoException e) {
 
-			throw new ServiceException("Error during searching procedure from BookServiceImpl"+e);
+			throw new ServiceException(MESSAGE+e);
 
 		}
 
@@ -64,7 +64,6 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<Book> findBooksLessThenPrice(Double price) throws ServiceException {
-		String response = null;
 
 		try {
 			DaoFactory daoFactory = DaoFactory.getInstance();
@@ -74,8 +73,8 @@ public class BookServiceImpl implements BookService {
 
 			return booksFind;
 		} catch (DaoException e) {
-			response = "Error during searching procedure from BookServiceImpl";
-			throw new ServiceException(response+e);
+
+			throw new ServiceException(MESSAGE+e);
 
 		}
 	}
@@ -83,7 +82,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<Book> findBooksByAuthor(String author) throws ServiceException {
 
-		String response = null;
+
 		try {
 			DaoFactory daoFactory = DaoFactory.getInstance();
 			BookDao bookDao = daoFactory.getBookDao();
@@ -92,8 +91,8 @@ public class BookServiceImpl implements BookService {
 
 			return booksFind;
 		} catch (DaoException e) {
-			response = "Error during searching procedure from BookServiceImpl";
-			throw new ServiceException(response+e);
+
+			throw new ServiceException(MESSAGE+e);
 
 			// write log
 		}
@@ -112,7 +111,7 @@ public class BookServiceImpl implements BookService {
 
 		} catch (DaoException e) {
 
-			throw new ServiceException("Error during searching procedure from BookServiceImpl"+e);
+			throw new ServiceException(MESSAGE+e);
 
 		}
 	}

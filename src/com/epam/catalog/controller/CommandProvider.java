@@ -21,7 +21,10 @@ public class CommandProvider {
 		repository.put(CommandName.GET_ALL_BOOKS, new GetAllBooks());
 		repository.put(CommandName.DELETE_BOOK_BY_ID,new DeleteBookById());
 		repository.put(CommandName.SEARCH_DISK_LESS_THAN_PRICE, new SearchDiskLessThanPrice());
+		repository.put(CommandName.UPDATE_DISK_BY_ID, new UpdateDiskById());
 		repository.put(CommandName.SEARCH_DISK_BY_NAME, new SearchDiskByName());
+		repository.put(CommandName.DELETE_DISK_BY_ID, new DeleteDiskById());
+		repository.put(CommandName.GET_ALL_DISKS, new GetAllDisks());
 		repository.put(CommandName.ADD_DISK, new AddDisk());
 		repository.put(CommandName.SEARCH_FILM_BIGGER_THAN_RATING, new SearchFilmBiggerThanRating());
 		repository.put(CommandName.SEARCH_FILM_BY_NAME, new SearchFilmByName());

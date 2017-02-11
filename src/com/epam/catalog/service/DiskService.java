@@ -13,4 +13,10 @@ public interface DiskService {
      List<Disk> findDisksLessThanPrice(Double price) throws ServiceException;
 
     List<Disk> findDisksByName(String name) throws ServiceException;
+
+    List<Disk> updateDiskById(int id,Disk diskForUpdate) throws ServiceException;
+
+    void deleteDisk(int id)throws ServiceException ;
+
+    List<Disk> getAll()throws ServiceException ;
 }
