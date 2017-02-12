@@ -23,10 +23,10 @@ public class SearchBookLessThanPrice implements Command {
 
        
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        BookService clientService = serviceFactory.getBookService();
+        BookService bookService = serviceFactory.getBookService();
         List<Book> booksFoundByPrice=null;
         try {
-            booksFoundByPrice=clientService.findBooksLessThenPrice(price);
+            booksFoundByPrice=bookService.findBooksLessThenPrice(price);
 
 
         } catch (ServiceException e) {

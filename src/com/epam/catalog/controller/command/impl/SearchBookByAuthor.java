@@ -34,10 +34,10 @@ public class SearchBookByAuthor implements Command {
 
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        BookService clientService = serviceFactory.getBookService();
+        BookService bookService = serviceFactory.getBookService();
         List<Book> booksFoundByAuthor=null;
         try {
-             booksFoundByAuthor=clientService.findBooksByAuthor(author);
+             booksFoundByAuthor=bookService.findBooksByAuthor(author);
 
             System.out.println("Controller:Welcome ");
 

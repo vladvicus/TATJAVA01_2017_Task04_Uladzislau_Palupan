@@ -15,50 +15,40 @@ import com.epam.catalog.dao.exception.DaoException;
 import com.epam.catalog.dao.impl.FilmDaoImpl;
 
 public class TestSearchFilmByName {
-	String datafile = Paths.get("data/units.txt").toAbsolutePath().toString();
-	FilmDaoImpl film = new FilmDaoImpl();
-	Set<Film> allFilms = null;
 
-	@BeforeTest
-	public void beforeTest() {
+    FilmDaoImpl film = new FilmDaoImpl();
 
-		try {
-			film.readFile(datafile);
-		} catch (IOException e) {
 
-			e.printStackTrace();
-		}
-		//allFilms = film.getFilms();
+    @BeforeTest
+    public void beforeTest() {
 
-	}
+    }
 
-	@Test(dataProvider = "dp")
-	public void f(String name) {
-		int counter = 0;
+    @Test(dataProvider = "dp")
+    public void f(String name) {
 
-		List<Film> result = null;
-		try {
 
-			result = film.findFilmsByName(name);
-		} catch (DaoException e) {
+        List<Film> result = null;
+        try {
 
-			e.printStackTrace();
-		}
-		for (Film film : allFilms) {
-			if (film.getName().toLowerCase().equals(name.toLowerCase())
-					|| (film.getName().toLowerCase().contains(name.toLowerCase()))) {
+            result = film.findFilmsByName(name);
+        } catch (DaoException e) {
 
-				counter++;
-			}
+            e.printStackTrace();
+        }
+        if (result.isEmpty()) {
+            Assert.assertTrue(result.size() == 0);
+        }
+        for (Film film : result) {
+            System.out.println(film);
+            Assert.assertTrue(film.getName().contains(name));
+        }
 
-		}
-		System.out.println(result.size() + " = " + counter);
-		Assert.assertEquals(result.size(), counter);
+    }
 
-	}
 
-	@DataProvider
-	public Object[][] dp() {
-		return new Object[][] { new Object[] {"Armagedon"}, new Object[] {""}, new Object[] {"mile"}, };
-	}
+    @DataProvider
+    public Object[][] dp() {
+        return new Object[][]{new Object[]{"Armagedon"}, new Object[]{"dgf"}, new Object[]{"mile"},};
+    }
 }

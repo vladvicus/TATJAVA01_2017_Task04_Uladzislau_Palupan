@@ -30,6 +30,7 @@ import static org.testng.Assert.assertTrue;
 public class FirstTest {
     @Test
     public void f() throws DaoException {
+        int rowAffected;
         String datafile = Paths.get("data/units.txt").toAbsolutePath().toString();
         DaoFactory daoFactory = DaoFactory.getInstance();
         //Book book=new Book();
@@ -42,15 +43,15 @@ public class FirstTest {
         DiskDaoImpl disk = new DiskDaoImpl();
         FilmDaoImpl film = new FilmDaoImpl();
         try {
-            //	bookDao.delete(7);
-            //	bookDao.delete(8);
+            	disk.delete(13);
+            	disk.delete(14);
             //   film.readFile(datafile);
             //bookDao.addBook(new Book("Tolstoj","War and Peace",1000,25.7));
             //bookDao.addBook(new Book("Tolkien","Hobbit",220,15.7));
             //bookDao.addBook(new Book("Roaling","Harry Porter",320,18.7));
             //	bookDao.addBook(new Book("Beth Lewis","The Wolf Road",342,10.91));
             //bookFind = bookDao.getAll();
-            bookFind = filmDao.findFilmsByName("Ava");
+            bookFind = filmDao.findFilmsByName("Avat");
 
         } catch (DaoException e) {
 

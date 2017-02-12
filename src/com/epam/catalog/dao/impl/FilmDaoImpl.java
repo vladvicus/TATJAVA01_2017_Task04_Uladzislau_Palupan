@@ -102,7 +102,7 @@ public class FilmDaoImpl implements FilmDao {
 	@Override
 	public List<Film> findFilmsGreaterThanRating(Integer rating) throws DaoException {
 
-		final String SQL = "SELECT * FROM catalog.films WHERE `rating` > ?";
+		final String SQL = "SELECT * FROM catalog.films WHERE `rating` > ? ORDER BY rating ASC";
 		List<Film> list = new ArrayList<>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;

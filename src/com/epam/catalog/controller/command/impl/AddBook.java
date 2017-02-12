@@ -26,9 +26,9 @@ public class AddBook implements Command {
 
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        BookService clientService = serviceFactory.getBookService();
+        BookService bookService = serviceFactory.getBookService();
         try {
-            clientService.addBook(newBook);
+            bookService.addBook(newBook);
 
         } catch (ServiceException e) {
             System.out.println(e);

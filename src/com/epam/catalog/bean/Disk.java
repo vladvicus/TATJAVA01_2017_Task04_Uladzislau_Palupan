@@ -68,21 +68,19 @@ public class Disk {
 
 		Disk disk = (Disk) o;
 
-		if (getId() != disk.getId()) return false;
-		if (!getType().equals(disk.getType())) return false;
-		if (!getName().equals(disk.getName())) return false;
-		if (!getYear().equals(disk.getYear())) return false;
-		return getPrice().equals(disk.getPrice());
+		if (getType() != null ? !getType().equals(disk.getType()) : disk.getType() != null) return false;
+		if (getName() != null ? !getName().equals(disk.getName()) : disk.getName() != null) return false;
+		if (getYear() != null ? !getYear().equals(disk.getYear()) : disk.getYear() != null) return false;
+		return getPrice() != null ? getPrice().equals(disk.getPrice()) : disk.getPrice() == null;
 
 	}
 
 	@Override
 	public int hashCode() {
-		int result = getId();
-		result = 31 * result + getType().hashCode();
-		result = 31 * result + getName().hashCode();
-		result = 31 * result + getYear().hashCode();
-		result = 31 * result + getPrice().hashCode();
+		int result = getType() != null ? getType().hashCode() : 0;
+		result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+		result = 31 * result + (getYear() != null ? getYear().hashCode() : 0);
+		result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
 		return result;
 	}
 

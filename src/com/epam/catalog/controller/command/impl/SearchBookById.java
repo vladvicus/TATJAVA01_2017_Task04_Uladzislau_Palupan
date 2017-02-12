@@ -29,10 +29,10 @@ public class SearchBookById implements Command {
         }
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        BookService clientService = serviceFactory.getBookService();
+        BookService bookService = serviceFactory.getBookService();
        List<Book> bookFoundById=null;
         try {
-            bookFoundById=clientService.readBook(id);
+            bookFoundById=bookService.readBook(id);
 
 
         } catch (ServiceException e) {

@@ -25,14 +25,14 @@ public class UpdateDiskById implements com.epam.catalog.controller.command.Comma
             System.out.println("Illegal format for parameter " + e);
             return null;
         }
-Disk disk=new Disk();
-        Disk diskForUpdate=disk.makeDisk();
+        Disk disk = new Disk();
+        Disk diskForUpdate = disk.makeDisk();
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         DiskService diskService = serviceFactory.getDiskService();
-        List<Disk> diskFoundById = null;
+        List<Disk> diskUpdated = null;
         try {
-            diskFoundById = diskService.updateDiskById(id,diskForUpdate);
+            diskUpdated = diskService.updateDiskById(id, diskForUpdate);
 
 
         } catch (ServiceException e) {
@@ -41,7 +41,7 @@ Disk disk=new Disk();
             System.out.println("Controller,SearchBookByPrice:Error during searching procedure");
         }
 
-        return diskFoundById;
+        return diskUpdated;
 
     }
 

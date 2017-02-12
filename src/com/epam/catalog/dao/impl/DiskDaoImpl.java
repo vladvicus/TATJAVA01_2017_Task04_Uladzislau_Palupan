@@ -108,7 +108,7 @@ public class DiskDaoImpl implements DiskDao {
                 disk.setId(rs.getInt("id"));
                 disk.setType(rs.getString("type"));
                 disk.setName(rs.getString("name"));
-                disk.setYear(rs.getInt("pages"));
+                disk.setYear(rs.getInt("year"));
                 disk.setPrice(rs.getDouble("price"));
 
                 list.add(disk);
@@ -145,7 +145,7 @@ public class DiskDaoImpl implements DiskDao {
                 disk.setId(rs.getInt("id"));
                 disk.setType(rs.getString("type"));
                 disk.setName(rs.getString("name"));
-                disk.setYear(rs.getInt("pages"));
+                disk.setYear(rs.getInt("year"));
                 disk.setPrice(rs.getDouble("price"));
                 diskList.add(disk);
             }
@@ -161,6 +161,7 @@ public class DiskDaoImpl implements DiskDao {
 
     @Override
     public void delete(int id) throws DaoException {
+
         String sql = "DELETE FROM catalog.disks WHERE id=?";
         PreparedStatement ps = null;
         try {

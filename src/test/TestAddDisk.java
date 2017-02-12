@@ -4,40 +4,48 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.epam.catalog.bean.Disk;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import static org.testng.Assert.assertTrue;
 
 import com.epam.catalog.dao.exception.DaoException;
 
 import com.epam.catalog.dao.impl.DiskDaoImpl;
 
 public class TestAddDisk {
-	@Test(dataProvider = "dp")
+    @Test(dataProvider = "dp")
 
-	public void f(String message) {
-		Path datafile = Paths.get("data/units.txt").toAbsolutePath();
-		DiskDaoImpl disk = new DiskDaoImpl();
+    public void f(Disk disk) {
 
-		try {
-		//	disk.addDisk(disk);
+        	List<Disk> addedDisks=new ArrayList<>();
+        Disk addedDisk = new Disk();
+        DiskDaoImpl ddi = new DiskDaoImpl();
 
-			String data = new String(Files.readAllBytes(datafile));
-			System.out.println(data);
-			Assert.assertTrue(data.contains(message));
+        try {
+            ddi.addDisk(disk);
 
-		} catch (IOException  e) {
+            addedDisks = ddi.findDisksByName(disk.getName());
+             addedDisk=addedDisks.get(0);
 
-			e.printStackTrace();
-		}
 
-	}
 
-	@DataProvider
-	public Object[][] dp() {
-		return new Object[][] { new Object[] { "disk,CD,Mexicanissimo(Yanni),2013,1.2" },
-				new Object[] { "disk,,,0,0.0" }, };
-	}
+        } catch (DaoException e) {
+
+            e.printStackTrace();
+        }
+        Assert.assertTrue(addedDisk.equals(disk));
+
+    }
+
+    @DataProvider
+    public Object[][] dp() {
+        return new Object[][]{{new Disk("CD", "Mexicanissimo(Yanni)", 2013, 1.2)},
+                new Object[]{new Disk("", "", 0, 0.0)},};
+    }
 
 }
