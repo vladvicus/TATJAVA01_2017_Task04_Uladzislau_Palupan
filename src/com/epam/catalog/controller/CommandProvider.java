@@ -24,6 +24,7 @@ public class CommandProvider {
 		repository.put(CommandName.UPDATE_DISK_BY_ID, new UpdateDiskById());
 		repository.put(CommandName.SEARCH_DISK_BY_NAME, new SearchDiskByName());
 		repository.put(CommandName.DELETE_DISK_BY_ID, new DeleteDiskById());
+		repository.put(CommandName.SEARCH_DISK_BY_ID,new SearchDiskById());
 		repository.put(CommandName.GET_ALL_DISKS, new GetAllDisks());
 		repository.put(CommandName.ADD_DISK, new AddDisk());
 		repository.put(CommandName.SEARCH_FILM_BIGGER_THAN_RATING, new SearchFilmBiggerThanRating());

@@ -38,7 +38,7 @@ public class TestAddDisk {
 
             e.printStackTrace();
         }
-        Assert.assertTrue(addedDisk.equals(disk));
+        Assert.assertTrue(addedDisk.equals(disk));//without id
 
     }
 

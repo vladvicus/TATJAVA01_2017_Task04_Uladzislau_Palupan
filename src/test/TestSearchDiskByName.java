@@ -16,20 +16,20 @@ import com.epam.catalog.dao.impl.DiskDaoImpl;
 
 public class TestSearchDiskByName {
 
-	String datafile = Paths.get("data/units.txt").toAbsolutePath().toString();
+
 	DiskDaoImpl disk = new DiskDaoImpl();
-	Set<Disk> allDisks = null;
+	List<Disk> allDisks = null;
 
 	@BeforeTest
 	public void beforeTest() {
 
 		try {
-			disk.readFile(datafile);
-		} catch (IOException e) {
+			allDisks=disk.getAll();
+		} catch (DaoException e) {
 
 			e.printStackTrace();
 		}
-	//	allDisks = disk.getDisks();
+
 
 	}
 
@@ -41,6 +41,7 @@ public class TestSearchDiskByName {
 		try {
 
 			result = disk.findDisksByName(name);
+
 		} catch (DaoException e) {
 
 			e.printStackTrace();

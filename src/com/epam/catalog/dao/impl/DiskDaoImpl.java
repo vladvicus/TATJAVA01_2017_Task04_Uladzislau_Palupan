@@ -1,5 +1,6 @@
 package com.epam.catalog.dao.impl;
 
+import com.epam.catalog.bean.Book;
 import com.epam.catalog.bean.Disk;
 import com.epam.catalog.bean.Disk;
 
@@ -128,10 +129,9 @@ public class DiskDaoImpl implements DiskDao {
 
     }
 
-    //UPDATE Messages SET description = ?, author = ? WHERE id = ? AND seq_num = ?
     @Override
     public List<Disk> findDisksByName(String name) throws DaoException {
-        final String SQL = "SELECT * FROM catalog.disks WHERE name=?";
+        final String SQL = "SELECT * FROM catalog.disks WHERE (LOCATE(LOWER(?),LOWER(`name`))>0)";
         List<Disk> diskList = new ArrayList<>();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -201,6 +201,38 @@ public class DiskDaoImpl implements DiskDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+
+            closePrepareStatement(ps);
+            pool.freeConnection(connection);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Disk> read(int id) throws DaoException {
+        List<Disk> list = null;
+
+        final String SQL = "SELECT * FROM catalog.disks WHERE id = ?";
+        PreparedStatement ps = null;
+
+        try {
+            list = new ArrayList<Disk>();
+            connection = pool.getConnection();
+            ps = connection.prepareStatement(SQL);
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            Disk disk = new Disk();
+            disk.setId(rs.getInt("id"));
+            disk.setType(rs.getString("type"));
+            disk.setName(rs.getString("name"));
+            disk.setYear(rs.getInt("year"));
+            disk.setPrice(rs.getDouble("price"));
+            list.add(disk);
+        } catch (SQLException e) {
+            throw new DaoException(e);
         } finally {
 
             closePrepareStatement(ps);

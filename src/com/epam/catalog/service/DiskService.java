@@ -19,4 +19,6 @@ public interface DiskService {
     void deleteDisk(int id)throws ServiceException ;
 
     List<Disk> getAll()throws ServiceException ;
+
+    List<Disk> readDisk(int id) throws ServiceException ;
 }

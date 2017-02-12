@@ -1,6 +1,8 @@
 package com.epam.catalog.service.impl;
 
+import com.epam.catalog.bean.Book;
 import com.epam.catalog.bean.Disk;
+import com.epam.catalog.dao.BookDao;
 import com.epam.catalog.dao.DiskDao;
 import com.epam.catalog.dao.exception.DaoException;
 import com.epam.catalog.dao.factory.DaoFactory;
@@ -94,6 +96,22 @@ private final  String RESPONSE="Error during searching procedure from DiskServic
 
 		}
 
+	}
+
+	@Override
+	public List<Disk> readDisk(int id) throws ServiceException {
+		try {
+			DaoFactory daoFactory = DaoFactory.getInstance();
+			DiskDao diskDao = daoFactory.getDiskDao();
+
+			List<Disk> disksFind =diskDao.read(id);
+
+			return disksFind;
+		} catch (DaoException e) {
+
+			throw new ServiceException(RESPONSE+e);
+
+		}
 	}
 
 	@Override

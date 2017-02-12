@@ -17,4 +17,6 @@ public interface DiskDao {
     void   delete(int id) throws DaoException;
 
     List<Disk> getAll() throws DaoException;
+
+    List<Disk> read(int id) throws DaoException;
 }
