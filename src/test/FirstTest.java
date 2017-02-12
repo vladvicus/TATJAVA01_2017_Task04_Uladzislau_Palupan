@@ -10,8 +10,11 @@ import java.util.List;
 
 
 import com.epam.catalog.bean.Disk;
+import com.epam.catalog.bean.Film;
 import com.epam.catalog.dao.DiskDao;
+import com.epam.catalog.dao.FilmDao;
 import com.epam.catalog.dao.impl.DiskDaoImpl;
+import com.epam.catalog.dao.impl.FilmDaoImpl;
 import org.testng.annotations.Test;
 
 import com.epam.catalog.bean.Book;
@@ -30,31 +33,31 @@ public class FirstTest {
         String datafile = Paths.get("data/units.txt").toAbsolutePath().toString();
         DaoFactory daoFactory = DaoFactory.getInstance();
         //Book book=new Book();
-        List<Book> bookFind = new ArrayList<>();
+        List<Film> bookFind = new ArrayList<>();
         //Connection con = daoFactory.getConnection();
         List<Disk> diskFind = new ArrayList<>();
         BookDao bookDao = daoFactory.getBookDao();
+        FilmDao filmDao = daoFactory.getFilmDao();
         //DiskDao diskDao=daoFactory.getDiskDao();
         DiskDaoImpl disk = new DiskDaoImpl();
+        FilmDaoImpl film = new FilmDaoImpl();
         try {
             //	bookDao.delete(7);
             //	bookDao.delete(8);
-            disk.readFile(datafile);
+            //   film.readFile(datafile);
             //bookDao.addBook(new Book("Tolstoj","War and Peace",1000,25.7));
             //bookDao.addBook(new Book("Tolkien","Hobbit",220,15.7));
             //bookDao.addBook(new Book("Roaling","Harry Porter",320,18.7));
             //	bookDao.addBook(new Book("Beth Lewis","The Wolf Road",342,10.91));
             //bookFind = bookDao.getAll();
-            bookFind = bookDao.read(5);
+            bookFind = filmDao.findFilmsByName("Ava");
 
         } catch (DaoException e) {
 
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
-        for (Book oneBook : bookFind) {
+        for (Film oneBook : bookFind) {
             System.out.println(oneBook);
 
         }
@@ -68,4 +71,5 @@ public class FirstTest {
         assertNotNull(bookFind);
         assertTrue(bookFind.size() > 0);
     }
+
 }

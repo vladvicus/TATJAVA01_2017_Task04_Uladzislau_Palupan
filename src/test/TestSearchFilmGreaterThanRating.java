@@ -28,7 +28,7 @@ public class TestSearchFilmGreaterThanRating {
 
 			e.printStackTrace();
 		}
-		allFilms = film.getFilms();
+		//allFilms = film.getFilms();
 
 	}
 

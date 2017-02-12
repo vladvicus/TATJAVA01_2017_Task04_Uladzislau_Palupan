@@ -28,7 +28,7 @@ public class TestSearchFilmByName {
 
 			e.printStackTrace();
 		}
-		allFilms = film.getFilms();
+		//allFilms = film.getFilms();
 
 	}
 

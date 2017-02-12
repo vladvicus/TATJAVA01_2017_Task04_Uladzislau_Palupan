@@ -17,8 +17,6 @@ public class ConnectionPool {
     private static String PASS = "root";
     private static String URL = "jdbc:mysql://localhost:3306/catalog";
     private static String DRIVER = "com.mysql.jdbc.Driver";
-
-
     private int maxConn;
 
     private ConnectionPool(int max) {
@@ -30,21 +28,16 @@ public class ConnectionPool {
             System.exit(1);
         }
 
-
         maxConn = max > 0 ? max : 1;
-
-
         freeConn = new ArrayBlockingQueue<Connection>(maxConn);
         busyConn = new ArrayBlockingQueue<Connection>(maxConn);
     }
-
 
     public static synchronized ConnectionPool getInstance(int max) {
 
         if (instance == null) {
             instance = new ConnectionPool(max);
         }
-
         return instance;
     }
 
@@ -70,14 +63,10 @@ public class ConnectionPool {
 
             }
         }
-
-
         return getConnection();
     }
-
     public void freeConnection(Connection conn) {
         busyConn.remove(conn);
         freeConn.add(conn);
-
     }
 }
