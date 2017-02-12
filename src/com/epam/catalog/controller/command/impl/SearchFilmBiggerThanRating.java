@@ -12,33 +12,37 @@ import com.epam.catalog.service.factory.ServiceFactory;
 
 public class SearchFilmBiggerThanRating implements Command {
 
-	@Override
-	public List<?> execute(String request) {
-	 
-		System.out.println(request);
-		request = request.replaceAll("\\s{2,}", " ");
-		String[] arr = request.split(",");
-		if (arr.length==1) return null;
-		for (String element : arr) {
-			element.trim();
-			System.out.println(element);
-		}
-		Integer rating = Integer.parseInt(arr[1]);
+    @Override
+    public List<?> execute(String request) {
+        int rating;
+        System.out.println(request);
+        request = request.replaceAll("\\s{2,}", " ");
+        String[] arr = request.split(",");
+        if (arr.length == 1) {
+            return null;
+        }
+        for (String element : arr) {
+            element.trim();
+            System.out.println(element);
+        }
+        try {
+            rating = Integer.parseInt(arr[1]);
+        } catch (NumberFormatException e) {
+            System.out.println("Illegal format for parameter rating" + e);
+            return null;
+        }
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
+        FilmService filmService = serviceFactory.getFilmService();
+        List<Film> filmsFoundByPrice = null;
+        try {
+            filmsFoundByPrice = filmService.findFilmsGreaterThanRating(rating);
 
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		FilmService filmService = serviceFactory.getFilmService();
-		List<Film> filmsFoundByPrice = null;
-		try {
-			filmsFoundByPrice = filmService.findFilmsGreaterThanRating(rating);
-			
+        } catch (ServiceException e) {
+            // write log
+            System.out.println("SearchFilmsGreaterThanRating:Error during searching procedure");
+        }
 
-		} catch (ServiceException e) {
-
-			// write log
-			System.out.println("SearchFilmsGreaterThanRating:Error during searching procedure");
-		}
-
-		return filmsFoundByPrice;
-	}
+        return filmsFoundByPrice;
+    }
 
 }

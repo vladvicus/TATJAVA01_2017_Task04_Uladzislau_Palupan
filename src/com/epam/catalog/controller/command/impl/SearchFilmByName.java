@@ -10,34 +10,38 @@ import com.epam.catalog.service.factory.ServiceFactory;
 
 public class SearchFilmByName implements Command {
 
-	@Override
-	public List<?> execute(String request) {
-		
-		System.out.println(request);
+    @Override
+    public List<?> execute(String request) {
+        String name;
+        System.out.println(request);
+        request = request.replaceAll("\\s{2,}", " ");
+        String[] arr = request.split(",");
+        if (arr.length == 1) {
+            return null;
+        }
+        for (String element : arr) {
+            element.trim();
+        }
+        try {
+            name = arr[1];
+        } catch (NumberFormatException e) {
+            System.out.println("Illegal format for parameter name" + e);
+            return null;
+        }
 
-		request = request.replaceAll("\\s{2,}", " ");
-		System.out.println(request);
-		String[] arr = request.split(",");
-		if (arr.length==1) return null;
-		for (String element : arr) {
-			element.trim();
-			System.out.println(element);
-		}
-		String name = arr[1];
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
+        FilmService filmService = serviceFactory.getFilmService();
+        List<Film> filmsFoundByName = null;
+        try {
+            filmsFoundByName = filmService.findFilmsByName(name);
 
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		FilmService filmService = serviceFactory.getFilmService();
-		List<Film> filmsFoundByName = null;
-		try {
-			filmsFoundByName = filmService.findFilmsByName(name);
+        } catch (ServiceException e) {
 
-		} catch (ServiceException e) {
+            // write log
+            System.out.println("Controller,SearchFilmByName:Error during searching procedure" + e);
+        }
 
-			// write log
-			System.out.println("Controller,SearchFilmByName:Error during searching procedure");
-		}
-
-		return filmsFoundByName;
-	}
+        return filmsFoundByName;
+    }
 
 }
