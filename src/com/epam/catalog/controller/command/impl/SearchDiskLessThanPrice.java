@@ -31,7 +31,7 @@ public class SearchDiskLessThanPrice implements Command {
         } catch (ServiceException e) {
 
             // write log
-            System.out.println(MESSAGE_EXECUTE+e);
+            System.out.println(MESSAGE_EXECUTE + e);
         }
 
         return disksFoundByPrice;

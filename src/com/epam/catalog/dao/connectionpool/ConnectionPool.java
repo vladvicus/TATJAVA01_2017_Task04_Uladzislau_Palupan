@@ -2,6 +2,7 @@ package com.epam.catalog.dao.connectionpool;
 
 
 import com.epam.catalog.dao.exception.DaoException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,14 +10,14 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
-    private static ConnectionPool instance;
-    private BlockingQueue<Connection> freeConn;
-    private BlockingQueue<Connection> busyConn;
-    private final String MESSSAGE_CP = "SQLException in ConnectionPool.getConnection() ";
     private static final String USER = "root";
-    private static String PASS = "root";
+    private static ConnectionPool instance;
+    private static String PASS = "1234";
     private static String URL = "jdbc:mysql://localhost:3306/catalog";
     private static String DRIVER = "com.mysql.jdbc.Driver";
+    private final String MESSSAGE_CP = "SQLException in ConnectionPool.getConnection() ";
+    private BlockingQueue<Connection> freeConn;
+    private BlockingQueue<Connection> busyConn;
     private int maxConn;
 
     private ConnectionPool(int max) {

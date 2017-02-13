@@ -1,66 +1,62 @@
 package test;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Set;
-
+import com.epam.catalog.bean.Disk;
+import com.epam.catalog.dao.exception.DaoException;
+import com.epam.catalog.dao.impl.DiskDaoImpl;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.epam.catalog.bean.Disk;
-import com.epam.catalog.dao.exception.DaoException;
-import com.epam.catalog.dao.impl.DiskDaoImpl;
+import java.util.List;
 
 public class TestSearchDiskByName {
 
 
-	DiskDaoImpl disk = new DiskDaoImpl();
-	List<Disk> allDisks = null;
+    DiskDaoImpl disk = new DiskDaoImpl();
+    List<Disk> allDisks = null;
 
-	@BeforeTest
-	public void beforeTest() {
+    @BeforeTest
+    public void beforeTest() {
 
-		try {
-			allDisks=disk.getAll();
-		} catch (DaoException e) {
+        try {
+            allDisks = disk.getAll();
+        } catch (DaoException e) {
 
-			e.printStackTrace();
-		}
+            e.printStackTrace();
+        }
 
 
-	}
+    }
 
-	@Test(dataProvider = "dp")
-	public void f(String name) {
-		int counter = 0;
+    @Test(dataProvider = "dp")
+    public void f(String name) {
+        int counter = 0;
 
-		List<Disk> result = null;
-		try {
+        List<Disk> result = null;
+        try {
 
-			result = disk.findDisksByName(name);
+            result = disk.findDisksByName(name);
 
-		} catch (DaoException e) {
+        } catch (DaoException e) {
 
-			e.printStackTrace();
-		}
-		for (Disk disk : allDisks) {
-			if (disk.getName().toLowerCase().equals(name.toLowerCase())
-					|| (disk.getName().toLowerCase().contains(name.toLowerCase()))) {
+            e.printStackTrace();
+        }
+        for (Disk disk : allDisks) {
+            if (disk.getName().toLowerCase().equals(name.toLowerCase())
+                    || (disk.getName().toLowerCase().contains(name.toLowerCase()))) {
 
-				counter++;
-			}
+                counter++;
+            }
 
-		}
-		System.out.println(result.size() + " = " + counter);
-		Assert.assertEquals(result.size(), counter);
+        }
+        System.out.println(result.size() + " = " + counter);
+        Assert.assertEquals(result.size(), counter);
 
-	}
+    }
 
-	@DataProvider
-	public Object[][] dp() {
-		return new Object[][] { new Object[] { "Ruptur" }, new Object[] { "ruptur" },  new Object[] { "music" }};
-	}
+    @DataProvider
+    public Object[][] dp() {
+        return new Object[][]{new Object[]{"Ruptur"}, new Object[]{"ruptur"}, new Object[]{"music"}};
+    }
 }

@@ -27,11 +27,11 @@ public class TestDiskDelete {
             disk1.delete(allDisk.size() - 1);
             disksFindById = disk1.read(allDisk.size() - 1);
         } catch (DaoException e) {
-            System.out.println("DAoexception "+e);
+            System.out.println("DAoexception " + e);
         }
 
 
-          Assert.assertTrue(disksFindById.isEmpty());
+        Assert.assertTrue(disksFindById.isEmpty());
 
     }
 

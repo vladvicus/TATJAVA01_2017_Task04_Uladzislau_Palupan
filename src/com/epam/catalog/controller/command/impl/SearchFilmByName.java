@@ -1,12 +1,12 @@
 package com.epam.catalog.controller.command.impl;
 
-import java.util.List;
-
 import com.epam.catalog.bean.Film;
 import com.epam.catalog.controller.command.Command;
 import com.epam.catalog.service.FilmService;
 import com.epam.catalog.service.exception.ServiceException;
 import com.epam.catalog.service.factory.ServiceFactory;
+
+import java.util.List;
 
 public class SearchFilmByName implements Command {
 

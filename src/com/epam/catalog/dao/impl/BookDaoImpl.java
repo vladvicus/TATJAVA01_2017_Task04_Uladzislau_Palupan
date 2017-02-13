@@ -5,7 +5,6 @@ import com.epam.catalog.dao.BookDao;
 import com.epam.catalog.dao.connectionpool.ConnectionPool;
 import com.epam.catalog.dao.exception.DaoException;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,22 +15,20 @@ import java.util.List;
 public class BookDaoImpl implements BookDao {
 
 
-
-    public final int NUMBER_OF_CONNECTIONS = 3;
     public static ConnectionPool pool;
+    public final int NUMBER_OF_CONNECTIONS = 3;
     private Connection connection = null;
 
     public BookDaoImpl() {
 
-            this.pool = ConnectionPool.getInstance(NUMBER_OF_CONNECTIONS);
-        }
-
+        this.pool = ConnectionPool.getInstance(NUMBER_OF_CONNECTIONS);
+    }
 
 
     @Override
     public List<Book> read(int key) throws DaoException {
         List<Book> list = null;
-       final String SQL = "SELECT * FROM catalog.books WHERE id = ?";
+        final String SQL = "SELECT * FROM catalog.books WHERE id = ?";
 
         PreparedStatement ps = null;
 

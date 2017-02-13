@@ -1,18 +1,14 @@
 package test;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Set;
-
+import com.epam.catalog.bean.Film;
+import com.epam.catalog.dao.exception.DaoException;
+import com.epam.catalog.dao.impl.FilmDaoImpl;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.epam.catalog.bean.Film;
-import com.epam.catalog.dao.exception.DaoException;
-import com.epam.catalog.dao.impl.FilmDaoImpl;
+import java.util.List;
 
 public class TestSearchFilmByName {
 

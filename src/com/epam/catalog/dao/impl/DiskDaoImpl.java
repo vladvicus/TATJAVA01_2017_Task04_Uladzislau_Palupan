@@ -1,32 +1,25 @@
 package com.epam.catalog.dao.impl;
 
-import com.epam.catalog.bean.Book;
 import com.epam.catalog.bean.Disk;
-import com.epam.catalog.bean.Disk;
-
 import com.epam.catalog.dao.DiskDao;
 import com.epam.catalog.dao.connectionpool.ConnectionPool;
 import com.epam.catalog.dao.exception.DaoException;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DiskDaoImpl implements DiskDao {
+    public static ConnectionPool pool;
     public final String MESSAGE = "Error in DiskDaoIMPL!!";
     public final int NUMBER_OF_CONNECTIONS = 3;
-    public static ConnectionPool pool;
     private Connection connection = null;
 
     public DiskDaoImpl() {
@@ -34,25 +27,25 @@ public class DiskDaoImpl implements DiskDao {
     }
 
     @Override
-    public List<Disk> updateDiskById(int id,Disk diskForUpdate) throws DaoException {
-        final String SQL="UPDATE catalog.disks SET type = ?, name = ?,year= ?,price= ?  WHERE id = ?";
+    public List<Disk> updateDiskById(int id, Disk diskForUpdate) throws DaoException {
+        final String SQL = "UPDATE catalog.disks SET type = ?, name = ?,year= ?,price= ?  WHERE id = ?";
         List<Disk> list = new ArrayList<>();
-        PreparedStatement ps=null;
-        try{
-            connection=pool.getConnection();
-            ps=connection.prepareStatement(SQL);
-            ps.setString(1,diskForUpdate.getType());
-            ps.setString(2,diskForUpdate.getName());
-            ps.setInt(3,diskForUpdate.getYear());
-            ps.setDouble(4,diskForUpdate.getPrice());
-            ps.setInt(5,id);
+        PreparedStatement ps = null;
+        try {
+            connection = pool.getConnection();
+            ps = connection.prepareStatement(SQL);
+            ps.setString(1, diskForUpdate.getType());
+            ps.setString(2, diskForUpdate.getName());
+            ps.setInt(3, diskForUpdate.getYear());
+            ps.setDouble(4, diskForUpdate.getPrice());
+            ps.setInt(5, id);
             ps.executeUpdate();
 
             diskForUpdate.setId(id);
 
-           list.add(diskForUpdate);
-        }catch(SQLException e){
-            throw new DaoException(MESSAGE +e);
+            list.add(diskForUpdate);
+        } catch (SQLException e) {
+            throw new DaoException(MESSAGE + e);
         }
         return list;
     }
@@ -241,7 +234,7 @@ public class DiskDaoImpl implements DiskDao {
         return list;
     }
 
-    public List<Disk> readFile(String fname) throws IOException{
+    public List<Disk> readFile(String fname) throws IOException {
         List<Disk> disks = new ArrayList<>();
         FileInputStream fis = new FileInputStream(fname);
         BufferedReader br = new BufferedReader(new InputStreamReader(fis));

@@ -6,113 +6,116 @@ import com.epam.catalog.dao.exception.DaoException;
 import com.epam.catalog.dao.factory.DaoFactory;
 import com.epam.catalog.service.BookService;
 import com.epam.catalog.service.exception.ServiceException;
+
 import java.util.List;
 
 public class BookServiceImpl implements BookService {
-public final String MESSAGE="Error during searching procedure from BookServiceImpl";
-	@Override
-	public void addBook(Book book) throws ServiceException {
+    public final String MESSAGE = "Error during searching procedure from BookServiceImpl";
+
+    @Override
+    public void addBook(Book book) throws ServiceException {
 
 
-		try {
-			DaoFactory daoFactory = DaoFactory.getInstance();
-			BookDao bookDao = daoFactory.getBookDao();
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            BookDao bookDao = daoFactory.getBookDao();
 
-			bookDao.addBook(book);
+            bookDao.addBook(book);
 
-		} catch (DaoException e) {
+        } catch (DaoException e) {
 
-			throw new ServiceException(MESSAGE+e);
+            throw new ServiceException(MESSAGE + e);
 
-			// write log
-		}
-	}
+            // write log
+        }
+    }
 
-	@Override
-	public List<Book> getAll() throws ServiceException {
-
-
-		try {
-			DaoFactory daoFactory = DaoFactory.getInstance();
-			BookDao bookDao = daoFactory.getBookDao();
-
-			List<Book> booksFind=bookDao.getAll();
-			return booksFind;
-		} catch (DaoException e) {
-
-			throw new ServiceException( MESSAGE+e);
-
-		}
-
-	}
-	@Override
-	public  List<Book> readBook(int id) throws ServiceException {
-		try {
-			DaoFactory daoFactory = DaoFactory.getInstance();
-			BookDao bookDao = daoFactory.getBookDao();
-
-			List<Book> booksFind = bookDao.read(id);
-
-			return booksFind;
-		} catch (DaoException e) {
-
-			throw new ServiceException(MESSAGE+e);
-
-		}
-
-	}
-
-	@Override
-	public List<Book> findBooksLessThenPrice(Double price) throws ServiceException {
-
-		try {
-			DaoFactory daoFactory = DaoFactory.getInstance();
-			BookDao bookDao = daoFactory.getBookDao();
-
-			List<Book> booksFind = bookDao.findBooksLessThenPrice(price);
-
-			return booksFind;
-		} catch (DaoException e) {
-
-			throw new ServiceException(MESSAGE+e);
-
-		}
-	}
-
-	@Override
-	public List<Book> findBooksByAuthor(String author) throws ServiceException {
+    @Override
+    public List<Book> getAll() throws ServiceException {
 
 
-		try {
-			DaoFactory daoFactory = DaoFactory.getInstance();
-			BookDao bookDao = daoFactory.getBookDao();
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            BookDao bookDao = daoFactory.getBookDao();
 
-			List<Book> booksFind = bookDao.findBooksByAuthor(author);
+            List<Book> booksFind = bookDao.getAll();
+            return booksFind;
+        } catch (DaoException e) {
 
-			return booksFind;
-		} catch (DaoException e) {
+            throw new ServiceException(MESSAGE + e);
 
-			throw new ServiceException(MESSAGE+e);
+        }
 
-			// write log
-		}
+    }
 
-	}
+    @Override
+    public List<Book> readBook(int id) throws ServiceException {
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            BookDao bookDao = daoFactory.getBookDao();
 
-	@Override
-	public  void deleteBook(int id) throws ServiceException {
+            List<Book> booksFind = bookDao.read(id);
 
-		try {
-			DaoFactory daoFactory = DaoFactory.getInstance();
-			BookDao bookDao = daoFactory.getBookDao();
+            return booksFind;
+        } catch (DaoException e) {
 
-			 bookDao.delete(id);
+            throw new ServiceException(MESSAGE + e);
+
+        }
+
+    }
+
+    @Override
+    public List<Book> findBooksLessThenPrice(Double price) throws ServiceException {
+
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            BookDao bookDao = daoFactory.getBookDao();
+
+            List<Book> booksFind = bookDao.findBooksLessThenPrice(price);
+
+            return booksFind;
+        } catch (DaoException e) {
+
+            throw new ServiceException(MESSAGE + e);
+
+        }
+    }
+
+    @Override
+    public List<Book> findBooksByAuthor(String author) throws ServiceException {
 
 
-		} catch (DaoException e) {
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            BookDao bookDao = daoFactory.getBookDao();
 
-			throw new ServiceException(MESSAGE+e);
+            List<Book> booksFind = bookDao.findBooksByAuthor(author);
 
-		}
-	}
+            return booksFind;
+        } catch (DaoException e) {
+
+            throw new ServiceException(MESSAGE + e);
+
+            // write log
+        }
+
+    }
+
+    @Override
+    public void deleteBook(int id) throws ServiceException {
+
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            BookDao bookDao = daoFactory.getBookDao();
+
+            bookDao.delete(id);
+
+
+        } catch (DaoException e) {
+
+            throw new ServiceException(MESSAGE + e);
+
+        }
+    }
 }
