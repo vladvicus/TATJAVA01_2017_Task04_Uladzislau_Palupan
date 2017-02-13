@@ -2,7 +2,6 @@ package com.epam.catalog.dao.connectionpool;
 
 
 import com.epam.catalog.dao.exception.DaoException;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,6 +12,7 @@ public class ConnectionPool {
     private static ConnectionPool instance;
     private BlockingQueue<Connection> freeConn;
     private BlockingQueue<Connection> busyConn;
+    private final String MESSSAGE_CP = "SQLException in ConnectionPool.getConnection() ";
     private static final String USER = "root";
     private static String PASS = "root";
     private static String URL = "jdbc:mysql://localhost:3306/catalog";
@@ -24,7 +24,7 @@ public class ConnectionPool {
         try {
             Class.forName(DRIVER);
         } catch (ClassNotFoundException e) {
-            System.out.println("No JDBC driver found"+e);
+            System.out.println("No JDBC driver found " + e);
             System.exit(1);
         }
 
@@ -59,12 +59,13 @@ public class ConnectionPool {
                 busyConn.add(temp);
                 return temp;
             } catch (SQLException e) {
-                throw new DaoException("SQLException in ConnectionPool.getConnection();" + e);
+                throw new DaoException(MESSSAGE_CP + e);
 
             }
         }
         return getConnection();
     }
+
     public void freeConnection(Connection conn) {
         busyConn.remove(conn);
         freeConn.add(conn);

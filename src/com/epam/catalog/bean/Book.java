@@ -3,159 +3,153 @@ package com.epam.catalog.bean;
 import java.util.Scanner;
 
 public class Book {
-	static Scanner in = new Scanner(System.in);
-	private int id;
-	private String author;
-	private String name;
-	private Integer pages;
-	private Double price;
+    static Scanner in = new Scanner(System.in);
+    private int id;
+    private String author;
+    private String name;
+    private Integer pages;
+    private Double price;
 
 
-	public Book(String author, String name, Integer pages, Double price) {
-		super();
-		this.author = author;
-		this.name = name;
-		this.pages = pages;
-		this.price = price;
-	}
+    public Book(String author, String name, Integer pages, Double price) {
+        super();
+        this.author = author;
+        this.name = name;
+        this.pages = pages;
+        this.price = price;
+    }
 
-	public Book(Integer id, String author, String name, Integer pages, Double price) {
-		super();
-		this.id = id;
-		this.author = author;
-		this.name = name;
-		this.pages = pages;
-		this.price = price;
-	}
+    public Book(int id, String author, String name, Integer pages, Double price) {
+        super();
+        this.id = id;
+        this.author = author;
+        this.name = name;
+        this.pages = pages;
+        this.price = price;
+    }
 
-	public Book() {
+    public Book() {
+    }
 
-	}
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public String getAuthor() {
+        return author;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-	public Book makeBook() {
+    public String getName() {
+        return name;
+    }
 
-		System.out.println("Input book's name");
-		if (in.hasNextLine()) {
-			this.name = in.nextLine();
-		}
-		System.out.println("Input book's author");
-		if (in.hasNextLine()) {
-			this.author = in.nextLine();
-		}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-		System.out.println("Input books' pages(Integer)");
+    public Integer getPages() {
+        return pages;
+    }
 
-		this.pages = inputInt();
+    public void setPages(Integer pages) {
+        this.pages = pages;
+    }
 
-		System.out.println("Input books' price(Double)");
+    public Double getPrice() {
+        return price;
+    }
 
-		this.price = inputDouble();
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
-		return new Book(author, name, pages, price);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-	}
+        Book book = (Book) o;
 
-      Double inputDouble() {
-		Double x;
-		while (!in.hasNextDouble()) {
-			System.out.println("You input not an double number");
-			System.out.println("Input an double number");
+        if (getAuthor() != null ? !getAuthor().equals(book.getAuthor()) : book.getAuthor() != null)
+            return false;
+        if (getName() != null ? !getName().equals(book.getName()) : book.getName() != null)
+            return false;
+        if (getPages() != null ? !getPages().equals(book.getPages()) : book.getPages() != null)
+            return false;
+        return getPrice() != null ? getPrice().equals(book.getPrice()) : book.getPrice() == null;
+    }
 
-			in = new Scanner(System.in);
-		}
-		x = in.nextDouble();
-		return x;
-	}
+    @Override
+    public int hashCode() {
+        int result = getAuthor() != null ? getAuthor().hashCode() : 0;
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getPages() != null ? getPages().hashCode() : 0);
+        result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
+        return result;
+    }
 
-	int inputInt() {
-		int x = 0;
-	
-		while (!in.hasNextInt()) {
-			System.out.println("You input not an integer number");
-			System.out.println("Input an integer number");
+    @Override
+    public String toString() {
+        return "Book [id=" + id + ", author=" + author + ", name=" + name + ", pages=" + pages + ", price=" + price
+                + "]";
+    }
 
-			in = new Scanner(System.in);
-		}
-		x = in.nextInt();
-		return x;
-	}
+    public Book makeBook() {
 
-	public void setId(int id) {
-		this.id = id;
-	}
+        System.out.println("Input book's name");
+        if (in.hasNextLine()) {
+            this.name = in.nextLine();
+        }
+        System.out.println("Input book's author");
+        if (in.hasNextLine()) {
+            this.author = in.nextLine();
+        }
 
-	public String getAuthor() {
-		return author;
-	}
+        System.out.println("Input books' pages(Integer)");
 
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+        this.pages = inputInt();
 
-	public String getName() {
-		return name;
-	}
+        System.out.println("Input books' price(Double)");
 
-	public void setName(String name) {
-		this.name = name;
-	}
+        this.price = inputDouble();
 
-	public Integer getPages() {
-		return pages;
-	}
+        return new Book(author, name, pages, price);
 
-	public void setPages(Integer pages) {
-		this.pages = pages;
-	}
+    }
 
-	public Double getPrice() {
-		return price;
-	}
+    Double inputDouble() {
+        Double x;
+        while (!in.hasNextDouble()) {
+            System.out.println("You input not an double number");
+            System.out.println("Input an double number");
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
+            in = new Scanner(System.in);
+        }
+        x = in.nextDouble();
+        return x;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    int inputInt() {
+        int x;
 
-		Book book = (Book) o;
+        while (!in.hasNextInt()) {
+            System.out.println("You input not an integer number");
+            System.out.println("Input an integer number");
 
-		if (getAuthor() != null ? !getAuthor().equals(book.getAuthor()) : book.getAuthor() != null)
-			return false;
-		if (getName() != null ? !getName().equals(book.getName()) : book.getName() != null)
-			return false;
-		if (getPages() != null ? !getPages().equals(book.getPages()) : book.getPages() != null)
-			return false;
-		return getPrice() != null ? getPrice().equals(book.getPrice()) : book.getPrice() == null;
-	}
+            in = new Scanner(System.in);
+        }
+        x = in.nextInt();
+        return x;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = getAuthor() != null ? getAuthor().hashCode() : 0;
-		result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-		result = 31 * result + (getPages() != null ? getPages().hashCode() : 0);
-		result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		return "Book [id=" + id + ", author=" + author + ", name=" + name + ", pages=" + pages + ", price=" + price
-				+ "]";
-	}
-
-	
-
-	
 }

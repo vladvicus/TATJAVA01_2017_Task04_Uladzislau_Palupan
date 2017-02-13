@@ -34,11 +34,9 @@ public class UpdateDiskById implements com.epam.catalog.controller.command.Comma
         try {
             diskUpdated = diskService.updateDiskById(id, diskForUpdate);
 
-
         } catch (ServiceException e) {
-
             // write log
-            System.out.println("Controller,SearchBookByPrice:Error during searching procedure");
+            System.out.println(MESSAGE_EXECUTE + e);
         }
 
         return diskUpdated;

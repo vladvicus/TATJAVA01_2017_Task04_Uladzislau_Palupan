@@ -31,17 +31,12 @@ public class DeleteBookById implements Command {
         BookService bookService = serviceFactory.getBookService();
         List<Book> bookFound = null;
         try {
-
-
             bookService.deleteBook(id);
             bookFound = bookService.getAll();
-
         } catch (ServiceException e) {
-
             // write log
-            System.out.println("Controller,SearchBookByPrice:Error during searching procedure");
+            System.out.println(MESSAGE_EXECUTE+e);
         }
-
         return bookFound;
 
     }

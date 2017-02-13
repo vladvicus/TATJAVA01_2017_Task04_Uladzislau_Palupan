@@ -15,7 +15,6 @@ public interface BookService {
 
     List<Book> readBook(int id) throws ServiceException;
 
-
     List<Book> findBooksLessThenPrice(Double price) throws ServiceException;
 
     List<Book> findBooksByAuthor(String author) throws ServiceException;

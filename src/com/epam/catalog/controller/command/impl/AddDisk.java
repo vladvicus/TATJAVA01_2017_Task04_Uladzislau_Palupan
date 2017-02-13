@@ -1,26 +1,20 @@
 package com.epam.catalog.controller.command.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import com.epam.catalog.bean.Disk;
 import com.epam.catalog.controller.command.Command;
-import com.epam.catalog.service.BookService;
 import com.epam.catalog.service.DiskService;
 import com.epam.catalog.service.exception.ServiceException;
 import com.epam.catalog.service.factory.ServiceFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddDisk implements Command {
 
     @Override
     public List<?> execute(String request) {
 
-
-        System.out.println(request);
-
         request = request.replaceAll("\\s{2,}", " ");
-
 
         Disk disk = new Disk();
         Disk newDisk = disk.makeDisk();
@@ -34,7 +28,7 @@ public class AddDisk implements Command {
             diskService.addDisk(newDisk);
 
         } catch (ServiceException e) {
-            System.out.println(e);
+            System.out.println(MESSAGE_EXECUTE + e);
 
         }
 

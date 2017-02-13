@@ -15,32 +15,30 @@ public class SearchBookById implements Command {
     public List<?> execute(String request) {
         int id;
         String[] arr = request.split(",");
-        if (arr.length==1) return null;
+        if (arr.length == 1) return null;
         for (String element : arr) {
             element.trim();
             System.out.println(element);
         }
 
         try {
-             id = Integer.parseInt(arr[1]);
-        }catch (NumberFormatException e) {
-            System.out.println("Illegal format for parameter "+e);
+            id = Integer.parseInt(arr[1]);
+        } catch (NumberFormatException e) {
+            System.out.println("Illegal format for parameter " + e);
             return null;
         }
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         BookService bookService = serviceFactory.getBookService();
-       List<Book> bookFoundById=null;
+        List<Book> bookFoundById = null;
         try {
-            bookFoundById=bookService.readBook(id);
+            bookFoundById = bookService.readBook(id);
 
 
         } catch (ServiceException e) {
-
             // write log
-            System.out.println("Controller,SearchBookByPrice:Error during searching procedure");
+            System.out.println(MESSAGE_EXECUTE + e);
         }
-
         return bookFoundById;
 
     }

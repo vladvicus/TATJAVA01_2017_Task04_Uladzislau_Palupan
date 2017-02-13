@@ -23,42 +23,35 @@ public class Film {
         this.rating = rating;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getCountry()
-    {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country)
-    {
+    public void setCountry(String country) {
         this.country = country;
     }
 
     public Integer getYear() {
-
         return year;
     }
 
-    public void setYear(Integer year)
-    {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
-    public Integer getRating()
-    {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating)    {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
@@ -112,18 +105,15 @@ public class Film {
 
         Film film = (Film) o;
 
-        if (getId() != film.getId()) return false;
         if (!getName().equals(film.getName())) return false;
         if (!getCountry().equals(film.getCountry())) return false;
         if (!getYear().equals(film.getYear())) return false;
         return getRating().equals(film.getRating());
-
     }
 
     @Override
     public int hashCode() {
-        int result = getId();
-        result = 31 * result + getName().hashCode();
+        int result = getName().hashCode();
         result = 31 * result + getCountry().hashCode();
         result = 31 * result + getYear().hashCode();
         result = 31 * result + getRating().hashCode();

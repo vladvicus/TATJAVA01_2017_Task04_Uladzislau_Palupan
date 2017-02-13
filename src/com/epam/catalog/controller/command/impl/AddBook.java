@@ -14,10 +14,7 @@ public class AddBook implements Command {
     @Override
     public List<?> execute(String request) {
 
-        System.out.println(request);
-
         request = request.replaceAll("\\s{2,}", " ");
-
 
         Book book = new Book();
         Book newBook = book.makeBook();
@@ -31,7 +28,7 @@ public class AddBook implements Command {
             bookService.addBook(newBook);
 
         } catch (ServiceException e) {
-            System.out.println(e);
+            System.out.println(MESSAGE_EXECUTE + e);
         }
 
         return addedBook;

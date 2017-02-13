@@ -13,13 +13,11 @@ public class SearchBookByAuthor implements Command {
 
     @Override
     public List<?> execute(String request) {
-        
-        System.out.println(request);
 
-        request=request.replaceAll("\\s{2,}", " ");
+        request = request.replaceAll("\\s{2,}", " ");
         System.out.println(request);
         String[] arr = request.split(",");
-        if (arr.length==1) return null;
+        if (arr.length == 1) return null;
         for (String element : arr) {
             element.trim();
             System.out.println(element);
@@ -28,23 +26,20 @@ public class SearchBookByAuthor implements Command {
         try {
             author = arr[1];
         } catch (NumberFormatException e) {
-            System.out.println("Illegal format for parameter"+e);
+            System.out.println("Illegal format for parameter" + e);
             return null;
         }
 
-
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         BookService bookService = serviceFactory.getBookService();
-        List<Book> booksFoundByAuthor=null;
+        List<Book> booksFoundByAuthor = null;
         try {
-             booksFoundByAuthor=bookService.findBooksByAuthor(author);
-
-            System.out.println("Controller:Welcome ");
+            booksFoundByAuthor = bookService.findBooksByAuthor(author);
 
         } catch (ServiceException e) {
 
             // write log
-            System.out.println("Controller,SearchBookByAuthor:Error during searching procedure");
+            System.out.println(MESSAGE_EXECUTE + e);
         }
 
         return booksFoundByAuthor;

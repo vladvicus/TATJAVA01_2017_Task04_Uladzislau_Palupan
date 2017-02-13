@@ -37,7 +37,7 @@ public class SearchDiskById implements Command {
         } catch (ServiceException e) {
 
             // write log
-            System.out.println("Controller,SearchDiskByPrice:Error during searching procedure");
+            System.out.println(MESSAGE_EXECUTE+e);
         }
 
         return diskFoundById;

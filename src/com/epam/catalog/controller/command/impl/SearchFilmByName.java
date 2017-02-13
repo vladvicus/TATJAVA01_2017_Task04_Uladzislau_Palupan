@@ -13,7 +13,7 @@ public class SearchFilmByName implements Command {
     @Override
     public List<?> execute(String request) {
         String name;
-        System.out.println(request);
+
         request = request.replaceAll("\\s{2,}", " ");
         String[] arr = request.split(",");
         if (arr.length == 1) {
@@ -38,7 +38,7 @@ public class SearchFilmByName implements Command {
         } catch (ServiceException e) {
 
             // write log
-            System.out.println("Controller,SearchFilmByName:Error during searching procedure" + e);
+            System.out.println(MESSAGE_EXECUTE + e);
         }
 
         return filmsFoundByName;

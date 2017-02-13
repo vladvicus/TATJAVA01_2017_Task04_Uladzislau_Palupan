@@ -1,9 +1,7 @@
 package com.epam.catalog.dao.exception;
 
-/**
 
- */
-public class DaoException extends Exception{
+public class DaoException extends Exception {
     public DaoException() {
     }
 

@@ -7,9 +7,7 @@ import com.epam.catalog.service.factory.ServiceFactory;
 
 import java.util.List;
 
-/**
- * Created by Администратор on 11.02.2017.
- */
+
 public class DeleteDiskById implements com.epam.catalog.controller.command.Command {
     @Override
     public List<?> execute(String request) {
@@ -38,13 +36,11 @@ public class DeleteDiskById implements com.epam.catalog.controller.command.Comma
             diskFound = diskService.getAll();
 
         } catch (ServiceException e) {
-
             // write log
-            System.out.println("Controller,SearchdiskByPrice:Error during searching procedure");
+            System.out.println(MESSAGE_EXECUTE + e);
         }
 
         return diskFound;
-
 
 
     }

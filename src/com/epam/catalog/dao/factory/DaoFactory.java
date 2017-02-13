@@ -6,7 +6,6 @@ import com.epam.catalog.dao.FilmDao;
 import com.epam.catalog.dao.impl.BookDaoImpl;
 import com.epam.catalog.dao.impl.DiskDaoImpl;
 import com.epam.catalog.dao.impl.FilmDaoImpl;
-import com.mysql.jdbc.Connection;
 
 
 public final class DaoFactory {
@@ -16,7 +15,8 @@ public final class DaoFactory {
     private final DiskDao diskDao = new DiskDaoImpl();
 
 
-    private DaoFactory(){}
+    private DaoFactory() {
+    }
 
     public static DaoFactory getInstance()
 
@@ -24,10 +24,8 @@ public final class DaoFactory {
         return instance;
     }
 
-    public BookDao getBookDao()
-    {
+    public BookDao getBookDao() {
         return bookDao;
-
     }
 
     public FilmDao getFilmDao() {
